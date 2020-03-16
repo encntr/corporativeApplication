@@ -1,35 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace lab1
 {
     public partial class InsertWindowCalculation : Form
     {
-        Dictionary<string, int> products = new Dictionary<string, int>();
-        Dictionary<string, int> dishs = new Dictionary<string, int>();
+        private Dictionary<string, int> Products { get; set; }
+        private Dictionary<string, int> Dishs { get; set; }
+
         public InsertWindowCalculation()
         {
             InitializeComponent();
+            Init();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             try
             {
-                if (comboBox1.SelectedItem == null) throw new Exception("Выберите продукт");
-                if (comboBox2.SelectedItem == null) throw new Exception("Выберите блюдо");
-                List<string> vals = new List<string>();
-                vals.Add(comboBox2.SelectedItem.ToString());
-                vals.Add(comboBox1.SelectedItem.ToString());
-                vals.Add(textBox3.Text);
-                Broker.table.Add(vals);
+                if (comboBox1.SelectedItem == null)
+                    throw new Exception("Выберите продукт");
+                if (comboBox2.SelectedItem == null)
+                    throw new Exception("Выберите блюдо");
+
+                var values = new List<string>();
+                values.Add(comboBox2.SelectedItem.ToString());
+                values.Add(comboBox1.SelectedItem.ToString());
+                values.Add(textBox3.Text);
+                Broker.table.Add(values);
                 Close();
             }
             catch (Exception exp)
@@ -56,10 +55,21 @@ namespace lab1
             textBox3.Text = "";
             comboBox1.Items.Clear();
             comboBox2.Items.Clear();
-            products = ((Calculations)Broker.table).products;
-            foreach (string s in products.Keys) comboBox1.Items.Add(s);
-            dishs = ((Calculations)Broker.table).dishs;
-            foreach (string s in dishs.Keys) comboBox2.Items.Add(s);
+
+            Products = ((Calculations)Broker.table).Products;
+
+            foreach (var s in Products.Keys)
+                comboBox1.Items.Add(s);
+            Dishs = ((Calculations)Broker.table).Dishs;
+
+            foreach (var s in Dishs.Keys)
+                comboBox2.Items.Add(s);
+        }
+
+        private void Init()
+        {
+            Products = new Dictionary<string, int>();
+            Dishs = new Dictionary<string, int>();
         }
     }
 }

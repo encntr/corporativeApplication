@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace lab1
 {
     public partial class InsertWindowProducts : Form
     {
-        private Dictionary<string, int> units;
+        private Dictionary<string, int> Units { get; set; }
 
         public InsertWindowProducts()
         {
@@ -26,8 +20,9 @@ namespace lab1
             textBox3.Text = "";
             comboBox1.Items.Clear();
             
-            units = ((Products)Broker.table).units;
-            foreach (string s in units.Keys) comboBox1.Items.Add(s);            
+            Units = ((Products)Broker.table).Units;
+            foreach (var s in Units.Keys)
+                comboBox1.Items.Add(s);            
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -40,12 +35,14 @@ namespace lab1
         {
             try
             {
-                if (comboBox1.SelectedItem == null) throw new Exception("Выберите единицу измерения");
-                List<string> vals = new List<string>();
-                vals.Add(textBox1.Text);
-                vals.Add(comboBox1.SelectedItem.ToString());
-                vals.Add(textBox3.Text);
-                Broker.table.Add(vals);
+                if (comboBox1.SelectedItem == null)
+                    throw new Exception("Выберите единицу измерения");
+
+                var values = new List<string>();
+                values.Add(textBox1.Text);
+                values.Add(comboBox1.SelectedItem.ToString());
+                values.Add(textBox3.Text);
+                Broker.table.Add(values);
                 Close();
             }
             catch(Exception exp)

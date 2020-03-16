@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace lab1
 {
     public partial class InsertWindowDishs : Form
     {
-        private Dictionary<string, int> types;
+        private Dictionary<string, int> Types { get; set; }
 
         public InsertWindowDishs()
         {
@@ -25,20 +19,24 @@ namespace lab1
             textBox1.Text = "";
             textBox3.Text = "";
             comboBox1.Items.Clear();
-            types = ((Dishes)Broker.table).types;
-            foreach (string s in types.Keys) comboBox1.Items.Add(s);            
+            Types = ((Dishes)Broker.table).Types;
+
+            foreach (var s in Types.Keys)
+                comboBox1.Items.Add(s);            
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             try
             {
-                if (comboBox1.SelectedItem == null) throw new Exception("Выберите тип блюда");
-                List<string> vals = new List<string>();
-                vals.Add(textBox1.Text);
-                vals.Add(comboBox1.SelectedItem.ToString());
-                vals.Add(textBox3.Text);
-                Broker.table.Add(vals);
+                if (comboBox1.SelectedItem == null)
+                    throw new Exception("Выберите тип блюда");
+
+                var values = new List<string>();
+                values.Add(textBox1.Text);
+                values.Add(comboBox1.SelectedItem.ToString());
+                values.Add(textBox3.Text);
+                Broker.table.Add(values);
                 Close();
             }
             catch (Exception exp)

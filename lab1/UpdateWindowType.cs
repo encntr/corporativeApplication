@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace lab1
@@ -26,9 +20,9 @@ namespace lab1
         {
             try
             {
-                List<string> vals = new List<string>();
-                vals.Add(textBox1.Text);
-                Broker.table.Update(Broker.vals, vals);
+                var values = new List<string>();
+                values.Add(textBox1.Text);
+                Broker.table.Update(Broker.vals, values);
                 Close();
             }
             catch (Exception exp)

@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace lab1
 {
     public partial class InsertWindowReport : Form
     {
-        Dictionary<string, int> dishs = new Dictionary<string, int>();
+        private Dictionary<string, int> _dishs = new Dictionary<string, int>();
         public InsertWindowReport()
         {
             InitializeComponent();
@@ -23,8 +17,9 @@ namespace lab1
             comboBox1.SelectedItem = null;
             comboBox1.Items.Clear();            
             textBox3.Text = "";            
-            dishs = ((Report)Broker.table).dishs;
-            foreach (string s in dishs.Keys) comboBox1.Items.Add(s);
+            _dishs = ((Report)Broker.table).Dishs;
+            foreach (var s in _dishs.Keys)
+                comboBox1.Items.Add(s);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -36,11 +31,15 @@ namespace lab1
         {
             try
             {
-                if (comboBox1.SelectedItem == null) throw new Exception("Выберите блюдо");
-                List<string> vals = new List<string>();
-                vals.Add(comboBox1.SelectedItem.ToString());                
-                vals.Add(textBox3.Text);
-                Broker.table.Add(vals);
+                if (comboBox1.SelectedItem == null)
+                    throw new Exception("Выберите блюдо");
+
+                var values = new List<string>
+                {
+                    comboBox1.SelectedItem.ToString(), textBox3.Text
+                };
+
+                Broker.table.Add(values);
                 Close();
             }
             catch (Exception exp)

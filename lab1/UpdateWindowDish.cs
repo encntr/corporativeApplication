@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace lab1
 {
     public partial class UpdateWindowDish : Form
     {
-        private Dictionary<string, int> types;
+        private Dictionary<string, int> _types;
+
         public UpdateWindowDish()
         {
             InitializeComponent();
@@ -23,8 +18,10 @@ namespace lab1
             textBox1.Text = Broker.vals[0];
             textBox3.Text = Broker.vals[2];
             comboBox1.Items.Clear();
-            types = ((Dishes)Broker.table).types;
-            foreach (string s in types.Keys) comboBox1.Items.Add(s);
+            _types = ((Dishes)Broker.table).Types;
+
+            foreach (string s in _types.Keys)
+                comboBox1.Items.Add(s);
             comboBox1.SelectedItem = Broker.vals[1];
         }
 
@@ -32,11 +29,11 @@ namespace lab1
         {
             try
             {
-                List<string> vals = new List<string>();
-                vals.Add(textBox1.Text);
-                vals.Add(comboBox1.SelectedItem.ToString());
-                vals.Add(textBox3.Text);
-                Broker.table.Update(Broker.vals, vals);
+                var values = new List<string>();
+                values.Add(textBox1.Text);
+                values.Add(comboBox1.SelectedItem.ToString());
+                values.Add(textBox3.Text);
+                Broker.table.Update(Broker.vals, values);
                 Close();
             }
             catch (Exception exp)

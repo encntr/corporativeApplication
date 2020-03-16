@@ -1,19 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace lab1
 {
     public partial class UpdateWindowCalculation : Form
     {
-        Dictionary<string, int> products = new Dictionary<string, int>();
-        Dictionary<string, int> dishs = new Dictionary<string, int>();
+        private Dictionary<string, int> _products = new Dictionary<string, int>();
+        private Dictionary<string, int> _dishs = new Dictionary<string, int>();
+
         public UpdateWindowCalculation()
         {
             InitializeComponent();
@@ -24,10 +19,16 @@ namespace lab1
             comboBox1.Items.Clear();
             comboBox2.Items.Clear();
             textBox3.Text = Broker.vals[2];
-            products = ((Calculations)Broker.table).products;
-            foreach (string s in products.Keys) comboBox1.Items.Add(s);
-            dishs = ((Calculations)Broker.table).dishs;
-            foreach (string s in dishs.Keys) comboBox2.Items.Add(s);
+            _products = ((Calculations)Broker.table).Products;
+
+            foreach (string s in _products.Keys)
+                comboBox1.Items.Add(s);
+
+            _dishs = ((Calculations)Broker.table).Dishs;
+
+            foreach (string s in _dishs.Keys)
+                comboBox2.Items.Add(s);
+
             comboBox1.SelectedItem = Broker.vals[1];
             comboBox2.SelectedItem = Broker.vals[0];
         }
@@ -36,11 +37,11 @@ namespace lab1
         {
             try
             {
-                List<string> vals = new List<string>();
-                vals.Add(comboBox2.SelectedItem.ToString());
-                vals.Add(comboBox1.SelectedItem.ToString());
-                vals.Add(textBox3.Text);
-                Broker.table.Update(Broker.vals, vals);
+                var values = new List<string>();
+                values.Add(comboBox2.SelectedItem.ToString());
+                values.Add(comboBox1.SelectedItem.ToString());
+                values.Add(textBox3.Text);
+                Broker.table.Update(Broker.vals, values);
                 Close();
             }
             catch (Exception exp)
